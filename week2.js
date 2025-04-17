@@ -51,21 +51,12 @@ async function main() {
     console.log(`Driver updated: ${updateResult.modifiedCount}`);
 
     // Delete a driver who is not available
-    const deleteResult = await driversCollection.deleteMany({ isAvailable: false });
-    console.log(`Driver deleted: ${deleteResult.deletedCount}`);
-
-    // Find available drivers with rating >= 4.5
-    const availableDrivers = await driversCollection.find({
-      isAvailable: true,
-      rating: { $gte: 4.5 }
-    }).toArray();
-    console.log("Available drivers:", availableDrivers);
-
-  } catch (err) {
-    console.error("Error:", err);
+     const deleteResult = await driversCollection.deleteMany({ isAvailable: false });
+     console.log(`Driver deleted: ${deleteResult.deletedCount}`);
   } finally {
     await client.close();
   }
 }
 
-main();
+// Call the main function
+main().catch(console.error);
