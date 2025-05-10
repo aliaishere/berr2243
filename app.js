@@ -3,7 +3,13 @@ const {MongoClient} = require('mongodb');
 const port = 3000
 
 const app = express();
+const cors = require('cors');
+app.use(cors());
 app.use(express.json());
+
+const path = require('path');
+app.use(express.static(path.join(__dirname, 'public'))); // assuming HTML is in /public
+
 
 let db;
 
@@ -34,6 +40,7 @@ app.get('/rides',async (req, res) => {
     }   catch (err) {
         res.status(500).json({ error: "Failed to fetch rides"});
     }
+    console.log("Fetched ride:", ride);
 
 });
 
@@ -70,10 +77,10 @@ app.patch('/rides/:id', async (req, res)=>{
 app.delete('/rides/:id', async (req, res) => {
     try {
         const result = await db.collection('rides').deleteOne(
-            { _id: new ObjectId(req.params.id) }
-        );
+            { _id: new ObjectId(req.params.id) });
+        
 
-        if(result.deleteCount ===0){
+        if(result.deleteCount === 0){
          return res.status(404).json({ error: "Ride not found" });   
         }
         res.status(200).json({ deleted: result.deletedCount });
@@ -82,4 +89,3 @@ app.delete('/rides/:id', async (req, res) => {
       res.status(400).json({ error: "Invalid ride ID" });
     }
 });
-

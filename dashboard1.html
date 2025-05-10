@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ride Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; }
+    table, th, td { border: 1px solid #ccc; border-collapse: collapse; padding: 8px; }
+    table { width: 100%; margin-top: 1em; }
+    th { background-color: #f4f4f4; }
+    input, button { margin: 4px; padding: 6px; }
+  </style>
+</head>
+<body>
+  <h2>Ride Management Dashboard</h2>
+
+  <div>
+    <h3>Add New Ride</h3>
+    <input id="pickup" placeholder="Pickup Location">
+    <input id="destination" placeholder="Destination">
+    <input id="driverId" placeholder="Driver ID">
+    <button onclick="addRide()">Add Ride</button>
+  </div>
+
+  <div>
+    <h3>Update Ride Status</h3>
+    <input id="updateId" placeholder="Ride ID">
+    <input id="newStatus" placeholder="New Status (e.g. cancelled)">
+    <button onclick="updateRide()">Update</button>
+  </div>
+
+  <div>
+    <h3>Delete Ride</h3>
+    <input id="deleteId" placeholder="Ride ID">
+    <button onclick="deleteRide()">Delete</button>
+  </div>
+
+  <div>
+    <h3>All Rides</h3>
+    <button onclick="fetchRides()">Refresh List</button>
+    <table id="ridesTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Pickup</th>
+          <th>Destination</th>
+          <th>Driver ID</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script>
+    const API_URL = 'http://localhost:3000/rides';
+
+    async function fetchRides() {
+      const res = await fetch(API_URL);
+      const rides = await res.json();
+      const tbody = document.querySelector("#ridesTable tbody");
+      tbody.innerHTML = "";
+      rides.forEach(ride => {
+        const row = `<tr>
+          <td>${ride._id || "N/A"}</td>
+          <td>${ride.pickupLocation}</td>
+          <td>${ride.destination}</td>
+          <td>${ride.driverId}</td>
+          <td>${ride.status}</td>
+        </tr>`;
+        tbody.innerHTML += row;
+      });
+    }
+
+    async function addRide() {
+      const pickup = document.getElementById("pickup").value;
+      const destination = document.getElementById("destination").value;
+      const driverId = document.getElementById("driverId").value;
+
+      await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pickupLocation: pickup, destination, driverId, status: "requested" })
+      });
+
+      fetchRides();
+    }
+
+    async function updateRide() {
+      const id = document.getElementById("updateId").value;
+      const status = document.getElementById("newStatus").value;
+
+      await fetch(`${API_URL}/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status })
+      });
+
+      fetchRides();
+    }
+
+    async function deleteRide() {
+      const id = document.getElementById("deleteId").value;
+      await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+      fetchRides();
+    }
+
+    // Load rides on page load
+    fetchRides();
+  </script>
+</body>
+</html>
