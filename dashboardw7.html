@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Passenger Analytics Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #fdf4f8;
+    }
+
+    header {
+      background-color: #af907a;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 2em;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      padding: 40px 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .chart-card {
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    canvas {
+      max-width: 100%;
+      height: auto !important;
+    }
+
+    h3 {
+      color: #d81b60;
+    }
+  </style>
+</head>
+<body>
+
+  <header>🚕 Passenger Analytics Dashboard</header>
+
+  <div class="container">
+    <div class="chart-card">
+      <h3>Total Rides per Passenger</h3>
+      <canvas id="ridesChart"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <h3>Total Fare per Passenger (RM)</h3>
+      <canvas id="fareChart"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <h3>Average Distance per Ride (KM)</h3>
+      <canvas id="distanceChart"></canvas>
+    </div>
+  </div>
+
+  <script>
+    const data = [
+      { name: "Alice", totalRides: 2, totalFare: 37.8, avgDistance: 10.35 },
+      { name: "Bob", totalRides: 1, totalFare: 18.75, avgDistance: 9.8 }
+    ];
+
+    const labels = data.map(d => d.name);
+
+    new Chart(document.getElementById("ridesChart"), {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Total Rides',
+          data: data.map(d => d.totalRides),
+          backgroundColor: '#f8bbd0',  // Light pink
+          borderRadius: 8
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true } }
+      }
+    });
+
+    new Chart(document.getElementById("fareChart"), {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Total Fare (RM)',
+          data: data.map(d => d.totalFare),
+          backgroundColor: '#f48fb1',  // Medium pink
+          borderRadius: 8
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true } }
+      }
+    });
+
+    new Chart(document.getElementById("distanceChart"), {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Avg Distance (KM)',
+          data: data.map(d => d.avgDistance),
+          backgroundColor: '#ec407a',  // Dark pink
+          borderRadius: 8
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true } }
+      }
+    });
+  </script>
+
+</body>
+</html>
