@@ -1,0 +1,102 @@
+{
+	"info": {
+		"_postman_id": "ca6d57c0-711f-4adb-bc02-f69c75407d06",
+		"name": "week6",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43977330",
+		"_collection_link": "https://aliaamirah.postman.co/workspace/aliaamirah's-Workspace~de3a4f9a-8ba2-49b5-885f-06187ce46cc6/collection/43977330-ca6d57c0-711f-4adb-bc02-f69c75407d06?action=share&source=collection_link&creator=43977330"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{\r\n  \"email\": \"alia3110@gmail.com\",\r\n  \"password\": \"alia31\",\r\n  \"role\": \"admin\"\r\n}\r\n\r\n  \r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"alia3110@gmail.com\",\r\n  \"password\": \"alia31\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODU1MWJjMzNiYjZmN2Q3YWFkMTg1ZjMiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTA0MDgxMzgsImV4cCI6MTc1MDQxMTczOH0.BhmO1tV_owCeEWQw3DgEJsgBBorKq_0kHdNfeQBIeWA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/admin/users/68550247092d9bf2d4a7b126",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"admin",
+						"users",
+						"68550247092d9bf2d4a7b126"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -12,7 +12,7 @@ let db;
 
 // --- Connect to MongoDB ---
 async function connectToMongoDB() {
-    const uri = "mongodb://localhost:27017";
+    const uri = "mongodb://localhost:27017"
     const client = new MongoClient(uri);
     try {
         await client.connect();
@@ -66,20 +66,12 @@ const saltRounds = 10;
 app.post('/users', async (req, res) => {
   try {
     const { email, password, role } = req.body;
-
-    // hash the password
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-    // create the user object with hashed password
-    const user = {
-      email,
-      password: hashedPassword,
-      role: role || "customer" 
-    };
-
+    const user = { email, password: hashedPassword, role };
     await db.collection('users').insertOne(user);
     res.status(201).json({ message: "User created" });
   } catch (err) {
+    console.error(err); 
     res.status(400).json({ error: "Registration failed" });
   }
 });
